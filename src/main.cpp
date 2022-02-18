@@ -5,9 +5,20 @@
 
 int main(int argc, char **argv)
 {
-    if (true) // make false to run unit-tests
-    {
-        // debug section
+    
+    if (false) // make false to run unit-tests
+    {   
+        unsigned int n{3},m{4};
+        Matrix z1;
+         z1=algebra::random(n,m,1,2);
+         std::cout <<z1[0].size() <<std::endl;
+        for (size_t i{}; i < n; i++)
+        {
+            for (size_t j{}; j < m; j++)
+            {
+                std::cout << z1[i][j] << std::endl;
+            }
+        }
     }
     else
     {
