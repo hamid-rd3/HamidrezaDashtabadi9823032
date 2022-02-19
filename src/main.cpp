@@ -15,12 +15,12 @@ int main(int argc, char **argv)
         // algebra::show(z1);
         // algebra::show (z2);
         Matrix x = {};
-        // std::cout<<x.size() <<" , "<<x[0].size()<<std::endl;
-        if (x.size() == x[0].size())
-        {
-            // Matrix x2=algebra::multiply(x,x);
-            std::cout << "bad";
-        }
+         std::cout<<x.size() <<" , "<<x[0].size()<<std::endl;
+        // if (x.size() == x[0].size())
+        // {
+        //     // Matrix x2=algebra::multiply(x,x);
+        //     std::cout << "bad";
+        // }
         algebra::show(x);
         // Matrix r=algebra::random (n,m,2,1);
         //     for (size_t i{}; i < n; i++)

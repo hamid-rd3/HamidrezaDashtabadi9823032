@@ -18,7 +18,11 @@ iomanip
 numeric
 -
 
-/usr/src/app/src/hw1.cpp
+/usr/src/app/src/main.cpp
+iostream
+-
+gtest/gtest.h
+-
 hw1.h
 /usr/src/app/src/hw1.h
 
