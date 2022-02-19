@@ -14,11 +14,13 @@ Matrix algebra::ones(size_t n, size_t m)
 }
 Matrix algebra::random(size_t n, size_t m, double min, double max)
 {
-
-    if (min < max)
+    Matrix resultat;
+    if (!(min < max))
     {
-
-        Matrix r1;
+        throw(std::logic_error("min must be smaller than max"));
+    }
+    else
+    {
         // give seed { rd } to mersenne_twister_engine
         std::random_device rd;
         std::mt19937 mt(rd());
@@ -31,14 +33,10 @@ Matrix algebra::random(size_t n, size_t m, double min, double max)
             {
                 v1.push_back(dist(mt));
             }
-            r1.push_back(v1);
+            resultat.push_back(v1);
         }
-        return r1;
     }
-    else
-    {
-        throw(std::logic_error("min must be smaller than max"));
-    }
+    return resultat;
 }
 
 void algebra::show(const Matrix &matrix)
@@ -70,8 +68,8 @@ Matrix algebra::multiply(const Matrix &matrix, double c)
             }
             resultat.push_back(v1);
         }
-        return resultat;
     }
+    return resultat;
 }
 Matrix algebra::multiply(const Matrix &matrix1, const Matrix &matrix2)
 {
@@ -92,7 +90,6 @@ Matrix algebra::multiply(const Matrix &matrix1, const Matrix &matrix2)
         // ri :row of matrixi ,ci :columns if matrix i
         long unsigned int r1{matrix1.size()}, c1{matrix1[0].size()};
         long unsigned int r2{matrix2.size()}, c2{matrix2[0].size()};
-        Matrix resultat;
         for (size_t i{}; i < r1; i++)
         {
             std::vector<double> v1{};
@@ -109,19 +106,20 @@ Matrix algebra::multiply(const Matrix &matrix1, const Matrix &matrix2)
             }
             resultat.push_back(v1);
         }
-        return resultat;
     }
+    return resultat;
 }
 
 Matrix algebra::sum(const Matrix &matrix, double c)
 {
+    Matrix resultat;
     if (matrix.empty())
     {
         return matrix;
     }
     else
     {
-        Matrix resultat;
+
         for (auto &row_obj : matrix)
         {
             std::vector<double> v1;
@@ -131,11 +129,12 @@ Matrix algebra::sum(const Matrix &matrix, double c)
             }
             resultat.push_back(v1);
         }
-        return resultat;
     }
+    return resultat;
 }
 Matrix algebra::sum(const Matrix &matrix1, const Matrix &matrix2)
 {
+    Matrix resultat;
     if (matrix1.empty() && matrix2.empty())
     {
         Matrix empty;
@@ -163,7 +162,7 @@ Matrix algebra::sum(const Matrix &matrix1, const Matrix &matrix2)
         }
         else
         {
-            Matrix resultat;
+
             for (size_t i{}; i < r1; i++)
             {
                 std::vector<double> v1;
@@ -173,19 +172,20 @@ Matrix algebra::sum(const Matrix &matrix1, const Matrix &matrix2)
                 }
                 resultat.push_back(v1);
             }
-            return resultat;
         }
     }
+    return resultat;
 }
 Matrix algebra::transpose(const Matrix &matrix)
 {
+    Matrix resultat;
     if (matrix.empty())
     {
         return matrix;
     }
     else
     {
-        Matrix resultat;
+
         for (size_t i{}; i < matrix[0].size(); i++)
         {
             std::vector<double> v1;
@@ -195,11 +195,12 @@ Matrix algebra::transpose(const Matrix &matrix)
             }
             resultat.push_back(v1);
         }
-        return resultat;
     }
+    return resultat;
 }
 Matrix algebra::minor(const Matrix &matrix, size_t n, size_t m)
 {
+    Matrix resultat;
     if (matrix.empty())
     {
         return matrix;
@@ -210,7 +211,7 @@ Matrix algebra::minor(const Matrix &matrix, size_t n, size_t m)
     }
     else
     {
-        Matrix resultat;
+
         for (size_t i{}; i < matrix[0].size(); i++)
         {
             if (i == n)
@@ -224,11 +225,13 @@ Matrix algebra::minor(const Matrix &matrix, size_t n, size_t m)
             }
             resultat.push_back(v1);
         }
-        return resultat;
     }
+    return resultat;
 }
 double algebra::determinant(const Matrix &matrix)
 {
+    // co factor
+    std::vector<double> v1;
     if (matrix.empty())
     {
         return 1.0;
@@ -238,8 +241,7 @@ double algebra::determinant(const Matrix &matrix)
         throw(std::logic_error("matrix must be square"));
     }
     else
-    { // co factor
-        std::vector<double> v1;
+    {
         if (matrix.size() == 1)
         {
             return matrix[0][0];
@@ -253,11 +255,13 @@ double algebra::determinant(const Matrix &matrix)
                 v1.push_back(dm * std::pow(-1.0, i) * matrix[0][i]);
             }
         }
-        return std::accumulate(v1.begin(), v1.end(), 0.0);
     }
+    return std::accumulate(v1.begin(), v1.end(), 0.0);
 }
 Matrix algebra::inverse(const Matrix &matrix)
 {
+    // prmres:primitive resultat
+    Matrix prmres;
     if (matrix.empty())
     {
         return matrix;
@@ -272,8 +276,7 @@ Matrix algebra::inverse(const Matrix &matrix)
     }
     else
     {
-        // prmres:primitive resultat
-        Matrix prmres;
+
         for (size_t i{}; i < matrix.size(); i++)
         {
             std::vector<double> v1;
@@ -285,13 +288,14 @@ Matrix algebra::inverse(const Matrix &matrix)
             }
             prmres.push_back(v1);
         }
-        // transpose of primitive resultat
-        Matrix topr = algebra::transpose(prmres);
-        return algebra::multiply(topr, 1 / algebra::determinant(matrix));
     }
+    // transpose of primitive resultat
+    Matrix topr = algebra::transpose(prmres);
+    return algebra::multiply(topr, 1 / algebra::determinant(matrix));
 }
 Matrix algebra::concatenate(const Matrix &m1, const Matrix &m2, int axis)
 {
+    Matrix resultat;
     if (m1.empty() && m2.empty())
     {
         Matrix empty;
@@ -334,7 +338,7 @@ Matrix algebra::concatenate(const Matrix &m1, const Matrix &m2, int axis)
         }
         else if (axis == 0)
         {
-            Matrix resultat;
+
             for (auto &row_obj : m1)
 
             {
@@ -355,13 +359,13 @@ Matrix algebra::concatenate(const Matrix &m1, const Matrix &m2, int axis)
                 }
                 resultat.push_back(v2);
             }
-
-            return resultat;
         }
     }
+    return resultat;
 }
 Matrix algebra::ero_swap(const Matrix &matrix, size_t r1, size_t r2)
 {
+    Matrix resultat;
     if (matrix.empty())
     {
         return matrix;
@@ -370,4 +374,130 @@ Matrix algebra::ero_swap(const Matrix &matrix, size_t r1, size_t r2)
     {
         throw(std::logic_error("r1 or r2 inputs are out of range"));
     }
+    else
+    {
+
+        for (size_t i{}; i < matrix.size(); i++)
+        {
+
+            if (i == r1)
+            {
+
+                resultat.push_back(matrix[r2]);
+            }
+            else if (i == r2)
+            {
+                resultat.push_back(matrix[r1]);
+            }
+            else
+            {
+                resultat.push_back(matrix[i]);
+            }
+        }
+    }
+    return resultat;
 }
+Matrix algebra::ero_multiply(const Matrix &matrix, size_t r, double c)
+{
+    Matrix resultat;
+    if (matrix.empty())
+    {
+        return matrix;
+    }
+    else if (r >= matrix.size())
+    {
+        throw(std::logic_error("r is out of range"));
+    }
+    else
+    {
+        for (size_t i{}; i < matrix.size(); i++)
+        {
+            std::vector<double> v1;
+            for (size_t j{}; j < matrix[0].size(); j++)
+            {
+                if (i == r)
+                {
+                    v1.push_back(c * matrix[i][j]);
+                }
+                else
+                {
+                    v1.push_back(matrix[i][j]);
+                }
+            }
+            resultat.push_back(v1);
+        }
+    }
+    return resultat;
+}
+Matrix algebra::ero_sum(const Matrix &matrix, size_t r1, double c, size_t r2)
+{
+    Matrix resultat;
+    Matrix newmatrix = algebra::ero_multiply(matrix, r1, c);
+    if (matrix.empty())
+    {
+        return matrix;
+    }
+    else if (r1 >= matrix.size() || r2 >= matrix.size())
+    {
+        throw(std::logic_error("r1 or r2 inputs are out of range"));
+    }
+    else
+    {
+        for (size_t i{}; i < matrix.size(); i++)
+        {
+            std::vector<double> v1;
+            for (size_t j{}; j < matrix[0].size(); j++)
+            {
+                if (i != r2)
+                {
+                    v1.push_back(matrix[i][j]);
+                }
+                else
+                {
+                    v1.push_back(matrix[i][j] + newmatrix[r1][j]);
+                }
+            }
+            resultat.push_back(v1);
+        }
+    }
+    return resultat;
+}
+Matrix algebra::upper_triangular(const Matrix &matrix)
+{
+    Matrix resultat;
+    if (matrix.empty())
+    {
+        return matrix;
+    }
+
+    else if (matrix.size() != matrix[0].size())
+    {
+        throw(std::logic_error("matrix must be square"));
+    }
+    else if (algebra::determinant(matrix) == 0.0)
+    {
+        throw(std::logic_error("singular matrices have no inverse"));
+    }
+    else
+    {
+        for (size_t i{}; i < matrix.size(); i++)
+        {
+            for (size_t j{}; j < matrix[0].size(); j++)
+            {
+                if ((i + j) < matrix.size())
+                {
+                    if (!matrix[j][j] == 0)
+                        break;
+                    algebra::ero_swap(matrix, i, i + j);
+                }
+            }
+            if (matrix[i][i] == 0)
+            {
+                break;
+            }
+            else
+            {
+                matrix[i][i] / matrix[i][]
+            }
+        }
+    }

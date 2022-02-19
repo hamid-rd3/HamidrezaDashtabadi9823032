@@ -2,16 +2,18 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include "hw1.h"
-
+#include <compare>
 int main(int argc, char **argv)
 {
 
     if (false) // make false to run unit-tests
     {
         unsigned int n{1}, m{1};
+        // bool campare =(1 <=> 2);
          Matrix m1{{1, 2, 3}, {4, 5, 6}, {7, 8, 10}};
-        Matrix m6 =algebra::inverse(m1);
-    //    algebra:: show(m6);
+        Matrix m6 =algebra::ero_swap(m1,1,2);
+        
+        algebra:: show(m6);
     //     // for (auto & x:m6){
     //     //     for (auto& y:x)
     //     //         std::cout << y <<std::endl;
@@ -36,8 +38,8 @@ int main(int argc, char **argv)
         //     std::cout << "bad";
         // }
         // algebra::show(x);
-        Matrix r=algebra::concatenate (m1,m6,1);
-        algebra::show(r);
+        // Matrix r=algebra::concatenate (m1,m6,1);
+        // algebra::show(r);
             // for (size_t i{}; i < n; i++)
             // {
             //     for (size_t j{}; j <( m+2); j++)
@@ -55,6 +57,7 @@ int main(int argc, char **argv)
             std::cout << "<<<SUCCESS>>>" << std::endl;
         else
             std::cout << "FAILED" << std::endl;
+        
     }
     return 0;
 }
