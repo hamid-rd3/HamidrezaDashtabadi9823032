@@ -148,7 +148,7 @@ TEST(HW1Test, SUM2) {
         for (size_t j{}; j < sum[i].size(); j++)
             EXPECT_NEAR(sum[i][j], matrix1[i][j]+matrix2[i][j], 0.03);
 }
-/*
+
 TEST(HW1Test, TRANSPOSE) {
     // Caution: transpose of an empty matrix is an empty matrix
     EXPECT_TRUE(algebra::transpose(Matrix{}).empty());
@@ -213,7 +213,7 @@ TEST(HW1Test, DETERMINANT2) {
     Matrix matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
     EXPECT_DOUBLE_EQ(algebra::determinant(matrix), 0);
 }
-
+/*
 TEST(HW1Test, INVERSE1) {
     // Caution: inverse of an empty matrix
     EXPECT_TRUE(algebra::inverse(Matrix{}).empty());

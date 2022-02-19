@@ -106,7 +106,7 @@ Matrix algebra::multiply(const Matrix &matrix1, const Matrix &matrix2)
                     v2.push_back(matrix1[i][k] * matrix2[k][j]);
                 }
                 v1.push_back(std::accumulate(v2.begin(), v2.end(),
-                                             decltype(v2)::value_type(0)));
+                                             0.0));
             }
             resultat.push_back(v1);
         }
@@ -142,7 +142,8 @@ Matrix algebra::sum(const Matrix &matrix1, const Matrix &matrix2)
         Matrix empty;
         return empty;
     }
-    else if(matrix1.empty() != matrix2.empty()){
+    else if (matrix1.empty() != matrix2.empty())
+    {
         throw(std::logic_error("matrices with wrong dimensions cannot be summed"));
     }
     else
@@ -167,5 +168,83 @@ Matrix algebra::sum(const Matrix &matrix1, const Matrix &matrix2)
             }
             return resultat;
         }
+    }
+}
+Matrix algebra::transpose(const Matrix &matrix)
+{
+    if (matrix.empty())
+    {
+        return matrix;
+    }
+    else
+    {
+        Matrix resultat;
+        for (size_t i{}; i < matrix[0].size(); i++)
+        {
+            std::vector<double> v1;
+            for (size_t j{}; j < matrix.size(); j++)
+            {
+                v1.push_back(matrix[j][i]);
+            }
+            resultat.push_back(v1);
+        }
+        return resultat;
+    }
+}
+Matrix algebra::minor(const Matrix &matrix, size_t n, size_t m)
+{
+    if (matrix.empty())
+    {
+        return matrix;
+    }
+    else if (matrix.size() != matrix[0].size())
+    {
+        throw(std::logic_error("matrix must be square"));
+    }
+    else
+    {
+        Matrix resultat;
+        for (size_t i{}; i < matrix[0].size(); i++)
+        {
+            if (i == n)
+                continue;
+            std::vector<double> v1;
+            for (size_t j{}; j < matrix.size(); j++)
+            {
+                if (j == m)
+                    continue;
+                v1.push_back(matrix[i][j]);
+            }
+            resultat.push_back(v1);
+        }
+        return resultat;
+    }
+}
+double algebra::determinant(const Matrix &matrix)
+{
+    if (matrix.empty())
+    {
+        return 1.0;
+    }
+    else if (matrix.size() != matrix[0].size())
+    {
+        throw(std::logic_error("matrix must be square"));
+    }
+    else
+    { // co factor
+        std::vector<double> v1;
+        if (matrix.size() == 1)
+        {
+            return matrix[0][0];
+        }
+        else
+        {
+            for (size_t i{}; i < matrix[0].size(); i++)
+            {
+                double detminor1{algebra::determinant(algebra::minor(matrix, 0, i))};
+                v1.push_back(detminor1 * std::pow(-1.0, i) * matrix[0][i]);
+            }
+        }
+        return std::accumulate(v1.begin(), v1.end(), 0.0);
     }
 }
