@@ -567,7 +567,7 @@ Matrix algebra::upper_triangular(const Matrix &matrix)
             // nothing can happen if element on main diagonal is 0
             if (resultat[i][i] == 0)
             {
-                break;
+                continue;
             }
             // elminate (use trick to convert to zero ) lower elemnts ...
             //  without changing detminant,singular value and other properties
