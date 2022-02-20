@@ -462,42 +462,46 @@ Matrix algebra::ero_sum(const Matrix &matrix, size_t r1, double c, size_t r2)
     }
     return resultat;
 }
+
 Matrix algebra::upper_triangular(const Matrix &matrix)
-{
-    Matrix resultat;
+{   
+    Matrix resultat = matrix;
     if (matrix.empty())
     {
         return matrix;
     }
-
     else if (matrix.size() != matrix[0].size())
     {
         throw(std::logic_error("matrix must be square"));
     }
-    else if (algebra::determinant(matrix) == 0.0)
+    else{
+    
+        
+    for (size_t i{}; i < matrix.size(); i++)
     {
-        throw(std::logic_error("singular matrices have no inverse"));
-    }
-    else
-    {
-        for (size_t i{}; i < matrix.size(); i++)
+        if (matrix[i][i]!=0)
+            continue;
+        for (size_t j{i + 1}; j < matrix[0].size(); j++)
         {
-            for (size_t j{}; j < matrix[0].size(); j++)
+            if (resultat[j][i] != 0)
             {
-                if ((i + j) < matrix.size())
-                {
-                    if (!matrix[j][j] == 0)
-                        break;
-                    algebra::ero_swap(matrix, i, i + j);
-                }
-            }
-            if (matrix[i][i] == 0)
-            {
+                resultat = algebra::ero_swap(resultat, j, i);
                 break;
-            }
-            else
-            {
-                matrix[i][i] / matrix[i][]
             }
         }
     }
+
+    for (size_t i{}; i < matrix.size(); i++)
+    {
+        if (resultat[i][i] == 0)
+        {
+            break;
+        } // nothing can happen if element on main diagonal is 0
+        for (size_t j{i + 1}; j < resultat[0].size(); j++)
+        {
+            double trick=-resultat[j][i] / resultat[i][i];
+            resultat = algebra::ero_sum(resultat, i, trick, j);
+        }
+    }}
+    return resultat;
+}

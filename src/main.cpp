@@ -3,6 +3,41 @@
 #include <gtest/gtest.h>
 #include "hw1.h"
 #include <compare>
+#include <cmath>
+Matrix a1a(const Matrix &matrix)
+{
+    Matrix resultat = matrix;
+    
+    
+    for (size_t i{}; i < matrix.size(); i++)
+    {   
+        
+        for (size_t j{i + 1}; j < matrix[0].size(); j++)
+        {
+            if (resultat[j][i]!=0)
+            {
+                resultat = algebra::ero_swap(resultat, j, i); 
+                break;
+            }
+        }
+    }
+    
+    for (size_t i{}; i < matrix.size(); i++)
+    {
+        if (resultat[i][i] == 0)
+        {
+            break;
+        } // nothing can happen if element on main diagonal is 0
+        for (size_t j{i + 1}; j < resultat[0].size(); j++)
+        {
+            
+            resultat =algebra::ero_sum(resultat, i, -resultat[j][i] / resultat[i][i], j);
+            
+        }
+    }
+    return resultat;
+}
+
 int main(int argc, char **argv)
 {
 
@@ -10,22 +45,22 @@ int main(int argc, char **argv)
     {
         unsigned int n{1}, m{1};
         // bool campare =(1 <=> 2);
-         Matrix m1{{1, 2, 3}, {4, 5, 6}, {7, 8, 10}};
-        Matrix m6 =algebra::ero_swap(m1,1,2);
-        
-        algebra:: show(m6);
-    //     // for (auto & x:m6){
-    //     //     for (auto& y:x)
-    //     //         std::cout << y <<std::endl;
-    //     // }
-    //     // algebra::show (m1);
-    //     Matrix m2{{3}};
-    //     Matrix m3{{2, 3, 1.5}, {1, 1, 3}, {2, 0, 1}};
-    //     Matrix x = {};
+        Matrix m1{{1, 2}, {5, 7}};
+        // Matrix m6 =algebra::ero_swap(m1,1,0);
+        Matrix m7 = algebra::upper_triangular(m1);
+        algebra::show(m7);
+        //     // for (auto & x:m6){
+        //     //     for (auto& y:x)
+        //     //         std::cout << y <<std::endl;
+        //     // }
+        //     // algebra::show (m1);
+        //     Matrix m2{{3}};
+        //     Matrix m3{{2, 3, 1.5}, {1, 1, 3}, {2, 0, 1}};
+        //     Matrix x = {};
 
-    //     // std::cout << algebra::determinant(m1) << m4 << std::endl;
+        //     // std::cout << algebra::determinant(m1) << m4 << std::endl;
 
-    //      Matrix z1 =algebra::minor(m1,1,1);
+        //      Matrix z1 =algebra::minor(m1,1,1);
         // algebra::show(z1);
         // Matrix z2 =algebra::random(m,n,1,2);
         // algebra::show(z1);
@@ -40,13 +75,13 @@ int main(int argc, char **argv)
         // algebra::show(x);
         // Matrix r=algebra::concatenate (m1,m6,1);
         // algebra::show(r);
-            // for (size_t i{}; i < n; i++)
-            // {
-            //     for (size_t j{}; j <( m+2); j++)
-            //     {
-            //         std::cout << r[i][j] << " ," << std::endl;
-            //     }
-            // }
+        // for (size_t i{}; i < n; i++)
+        // {
+        //     for (size_t j{}; j <( m+2); j++)
+        //     {
+        //         std::cout << r[i][j] << " ," << std::endl;
+        //     }
+        // }
     }
     else
     {
@@ -57,7 +92,6 @@ int main(int argc, char **argv)
             std::cout << "<<<SUCCESS>>>" << std::endl;
         else
             std::cout << "FAILED" << std::endl;
-        
     }
     return 0;
 }
