@@ -20,15 +20,7 @@ numeric
 compare
 -
 
-/usr/src/app/src/main.cpp
-iostream
--
-gtest/gtest.h
--
+/usr/src/app/src/hw1.cpp
 hw1.h
 /usr/src/app/src/hw1.h
-compare
--
-cmath
--
 

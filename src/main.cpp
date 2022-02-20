@@ -4,39 +4,6 @@
 #include "hw1.h"
 #include <compare>
 #include <cmath>
-Matrix a1a(const Matrix &matrix)
-{
-    Matrix resultat = matrix;
-    
-    
-    for (size_t i{}; i < matrix.size(); i++)
-    {   
-        
-        for (size_t j{i + 1}; j < matrix[0].size(); j++)
-        {
-            if (resultat[j][i]!=0)
-            {
-                resultat = algebra::ero_swap(resultat, j, i); 
-                break;
-            }
-        }
-    }
-    
-    for (size_t i{}; i < matrix.size(); i++)
-    {
-        if (resultat[i][i] == 0)
-        {
-            break;
-        } // nothing can happen if element on main diagonal is 0
-        for (size_t j{i + 1}; j < resultat[0].size(); j++)
-        {
-            
-            resultat =algebra::ero_sum(resultat, i, -resultat[j][i] / resultat[i][i], j);
-            
-        }
-    }
-    return resultat;
-}
 
 int main(int argc, char **argv)
 {
